@@ -108,15 +108,25 @@ def rnn_forward(x, a0, parameters):
     a = np.zeros((n_a, m, T_x))
     y_pred = np.zeros((n_y, m, T_y))
 
+    # Initialize a_next
+    a_next = a0
+
     # loop over all time steps
     for t in range(T_x):
         # update the next hidden state, compute the prediction, get the cache
-        pass
+            # every time I get a slice of the x, input of size (n_x, m)
+        a_next, yt_pred, cache = rnn_cell_forward(x[:,:,t], a_next, parameters)
+        
         # save the value of the new next hidden state in a
-        pass
+        a[:,:,t] = a_next
+        
         # save the value of the prediction in y
-        pass
+        y_pred[:,:,t] = yt_pred
+        
         # append cache toe cashes
+        caches.append(cache)
 
     caches = (cache, x)
     return a, y_pred, caches
+
+
